@@ -17,7 +17,20 @@ const isAdmin = async (req, res, next) => {
     }
 }
 
+const isNormalUser = async (req, res, next) => {
+    try {
+        const token = req.headers.token
+        const user = await fetchUser(token)
+        if (user.role === "not activated")
+            throw ("You Dont Have Permissions.")
+        next()
+
+    }
+    catch (err) {
+        return res.status(403).json(err)
+    }
+}
 
 
 
-module.exports = { isAdmin }
+module.exports = { isAdmin, isNormalUser }

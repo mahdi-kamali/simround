@@ -4,10 +4,12 @@ const express = require("express")
 const SimCartModel = require("../../models/SimCartModel")
 const { fetchUser } = require("../../libs/UserFetch")
 const { paginateQuery } = require("../../libs/paginateQuery")
+const BuyOrderMode = require("../../models/BuyOrderMode")
+const SellOrderModel = require("../../models/SellOrderModel")
 const router = express.Router()
 
 
-router.post("/sim-carts/new", async (req, res, next) => {
+router.post("/sim-cards/new", async (req, res, next) => {
     try {
         const data = req.body
 
@@ -19,7 +21,6 @@ router.post("/sim-carts/new", async (req, res, next) => {
         newSimCart.sellerID = seller._id
 
 
-
         return res.json(await newSimCart.save())
     }
     catch (e) {
@@ -27,7 +28,9 @@ router.post("/sim-carts/new", async (req, res, next) => {
     }
 })
 
-router.get("/sim-carts/:pageNumber", async (req, res, next) => {
+
+
+router.get("/sim-cards/:pageNumber", async (req, res, next) => {
 
     const pageNumber = req.params.pageNumber
 
@@ -44,18 +47,46 @@ router.get("/sim-carts/:pageNumber", async (req, res, next) => {
 
 
 
-router.get("/orders/:pageNumber", async (req, res, next) => {
+// خرید های ما از مشتری
+router.get("/buy-orders/:pageNumber", async (req, res, next) => {
     try {
         const pageNumber = parseInt(req.params.pageNumber) || 1; // Extract page number from URL params, default to 1 if not provided
         const itemsPerPage = 10; // Set the number of items per page
 
-        const paginatedOrders = await paginateQuery(OrderModel, pageNumber, itemsPerPage);
+        const paginatedOrders = await paginateQuery(BuyOrderMode, pageNumber, itemsPerPage);
 
         return res.json(paginatedOrders);
     } catch (error) {
         return next(error);
     }
 });
+
+
+// فروش های ما به مشتری
+router.get("/sell-orders/:pageNumber", async (req, res, next) => {
+    try {
+        const pageNumber = parseInt(req.params.pageNumber) || 1; // Extract page number from URL params, default to 1 if not provided
+        const itemsPerPage = 10; // Set the number of items per page
+
+        const paginatedOrders = await paginateQuery(SellOrderModel, pageNumber, itemsPerPage);
+
+        return res.json(paginatedOrders);
+    } catch (error) {
+        return next(error);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

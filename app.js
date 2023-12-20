@@ -5,7 +5,7 @@ const multer = require("multer");
 const { ErrorHandler } = require("./libs/ErrorHandler");
 const upload = multer()
 const dotEnv = require("dotenv");
-const { isAdmin } = require("./libs/UserRoleChecker");
+const { isAdmin, isNormalUser } = require("./libs/UserRoleChecker");
 
 
 
@@ -29,21 +29,31 @@ app.use(express.static('public'));
 
 
 // Auth Routes
-app.use("/auth", require("./routes/auth/registerRouter"))
-app.use("/auth", require("./routes/auth/loginRouter"))
+app.use("/api/auth", require("./routes/auth/registerRouter"))
+app.use("/api/auth", require("./routes/auth/loginRouter"))
 
 
 
-// Sim-cart Routes
-app.use("/sim-cart", require("./routes/sim-carts/simCartsRouter"))
-
-
+// Public Routes
+app.use("/api", require("./routes/public/simCartsRouter"))
 
 
 
 // Admin Panel 
-app.use("/admin-panel",isAdmin,
- require("./routes/admin-panel/adminPanelRouter"))
+app.use("/api/admin-panel", isAdmin,
+    require("./routes/admin-panel/adminPanelRouter"))
+
+
+
+
+// User 
+app.use("/api/user/", isNormalUser, require("./routes/user/userRoutes"))
+
+
+
+
+
+
 
 
 

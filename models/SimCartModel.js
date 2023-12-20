@@ -1,16 +1,39 @@
 const mongoose = require("mongoose");
 
-const SimCartModel = new mongoose.Schema({
+
+
+const simcartUsedTypes = [
+    "new",
+    "used",
+    "semi used"
+]
+
+const simCartOperators = [
+    "MTN Irancell",
+    "Hamrah-e Aval",
+    "Rightel",
+]
+
+
+
+const SimCardModel = new mongoose.Schema({
+
     numbers: {
-        type: String,
+        type: Number,
         required: [true, "Please Enter Numbers."]
     },
-    price: String,
+    price: {
+        type: Number,
+        required: [true, "Please Enter price."]
+    },
+
     sellerID: {
         type: mongoose.Schema.ObjectId,
         required: [true, "Please Enter sellerID."]
     },
+
     activationDate: Date,
+
     isActivated: {
         type: Boolean,
         default: false
@@ -19,9 +42,28 @@ const SimCartModel = new mongoose.Schema({
         type: String,
         required: [true, "Please Enter Operator Name."]
     },
+
+    simCardUsageState: {
+        type: String,
+        default: simcartUsedTypes[0]
+    },
+    ghesti: {
+        type: Boolean,
+        default: false
+    },
+    pish: {
+        type: Number,
+        default: 0
+    },
+    vaziat: {
+        type: Boolean,
+        default: false
+    }
+
+
 },
     {
         timestamps: true
     });
 
-module.exports = mongoose.model("SimCart", SimCartModel);
+module.exports = mongoose.model("SimCard", SimCardModel);

@@ -1,25 +1,36 @@
-const paginateQuery = async (model, pageNumber = 1, itemsPerPage = 10) => {
+const paginateQuery = async (model, pageNumber = 1, itemsPerPage = 10,
+    sortQuery
+) => {
+
+    try {
 
 
 
-    
+
+        const skip = (pageNumber - 1) * itemsPerPage;
+        const query = model.find(sortQuery)
+        const totalItems = await model.countDocuments(query);
 
 
-    const skip = (pageNumber - 1) * itemsPerPage;
-    const query = model.find().skip(skip).limit(itemsPerPage);
+        const paginateQuery = query
+            .skip(skip).limit(itemsPerPage)
 
-    const totalItems = await model.countDocuments();
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-    const results = await query.exec();
+        const results = await paginateQuery.exec();
 
-    return {
-        totalItems,
-        currentPage: pageNumber,
-        totalPages,
-        itemsPerPage,
-        data: results
-    };
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        return {
+            totalItems,
+            currentPage: pageNumber,
+            totalPages,
+            itemsPerPage,
+            data: results
+        };
+    }
+    catch (err) {
+        throw err
+    }
 };
 
 
