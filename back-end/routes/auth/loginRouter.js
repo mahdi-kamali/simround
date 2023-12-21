@@ -17,7 +17,7 @@ router.post("/login", async (req, res, next) => {
         const user = await UserModel.findOne({
             email: email,
             password: password
-        })
+        }).select()
 
 
 
@@ -51,6 +51,7 @@ router.post("/login", async (req, res, next) => {
         })
     }
     catch (e) {
+        return res.json(e)
         next(e)
     }
 })
