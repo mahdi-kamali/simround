@@ -43,7 +43,7 @@ router.post("/login", async (req, res, next) => {
             }
         )
 
-        
+
 
         return res.json({
             message: "خوش آمدید.",
@@ -51,8 +51,7 @@ router.post("/login", async (req, res, next) => {
         })
     }
     catch (e) {
-        return res.json(e)
-        next(e)
+        return next(e)
     }
 })
 
