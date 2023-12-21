@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import "./css/global.css"
+
+
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+
+import MainPage from "./pages/main-page/HomePage"
+import Header from "./components/primary/Header";
+import Footer from "./components/primary/Footer";
+import Auth from "./pages/auth/Auth";
+import AdminPanel from "./pages/admin-panel/AdminPanel"
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <BrowserRouter>
+        <Header />
+
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/admin/panel" element={<AdminPanel />} />
+          <Route path="*" element={<h1>صفحه پیدا نشد.</h1>} />
+        </Routes>
+        <Footer />
+
+      </BrowserRouter>
+
+
     </div>
   );
 }

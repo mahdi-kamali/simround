@@ -8,9 +8,11 @@ const { TOKEN } = require("../../libs/envAccess")
 
 
 
-router.get("/login", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
     try {
         const { email, password } = req.body
+
+
 
         const user = await UserModel.findOne({
             email: email,
@@ -41,8 +43,12 @@ router.get("/login", async (req, res, next) => {
             }
         )
 
+        
 
-        return res.json(token)
+        return res.json({
+            message: "خوش آمدید.",
+            token
+        })
     }
     catch (e) {
         next(e)

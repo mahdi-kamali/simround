@@ -6,6 +6,7 @@ const { ErrorHandler } = require("./libs/ErrorHandler");
 const upload = multer()
 const dotEnv = require("dotenv");
 const { isAdmin, isNormalUser } = require("./libs/UserRoleChecker");
+const cors = require("cors")
 
 
 
@@ -24,6 +25,7 @@ app.use(bodyParse.json());
 app.use(bodyParse.urlencoded({ extended: true }));
 app.use(upload.array());
 app.use(express.static('public'));
+app.use(cors())
 
 
 
@@ -31,6 +33,7 @@ app.use(express.static('public'));
 // Auth Routes
 app.use("/api/auth", require("./routes/auth/registerRouter"))
 app.use("/api/auth", require("./routes/auth/loginRouter"))
+app.use("/api/auth/info", require("./routes/auth/userInfoRouter"))
 
 
 
