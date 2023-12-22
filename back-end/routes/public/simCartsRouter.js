@@ -6,7 +6,7 @@ const router = express.Router()
 
 
 
-router.get("/sim-carts", async (req, res, next) => {
+router.post("/sim-carts", async (req, res, next) => {
     try {
         const pageNumber = parseInt(req.query.pageNumber);
         const {

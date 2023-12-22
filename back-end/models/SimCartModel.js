@@ -66,4 +66,4 @@ const SimCardModel = new mongoose.Schema({
         timestamps: true
     });
 
-module.exports = mongoose.model("SimCard", SimCardModel);
+module.exports = mongoose.model("simcards", SimCardModel);
