@@ -18,6 +18,8 @@ router.post("/sim-cards/new", async (req, res, next) => {
 
         const seller = await fetchUser(req.headers.token)
 
+        
+
 
         const newSimCart = new SimCartModel(data)
         newSimCart.sellerID = seller._id

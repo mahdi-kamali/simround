@@ -29,6 +29,8 @@ export default function AllSimCards() {
   const [data, error, loading, refresh, setUrl] = useFetch(
     ADMIN_PANEL.SIM_CARDS.GET + `?pageNumber=${1}`, {})
 
+    console.log(data)
+
   const [isTableEditing, setIsTableEditing] = useState(false)
 
 
