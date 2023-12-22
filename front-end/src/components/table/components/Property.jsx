@@ -1,16 +1,26 @@
 import React, { useState } from 'react'
 
-const Property = ({ children, inputName, rowEditing }) => {
+const Property = ({ children, inputName, isReadOnly = false, isSelectBox = false }) => {
 
 
-  const [isEditing, setIsEditing] = useState(rowEditing)
+
+  
 
 
 
   return (
-    <div className='property'>
+    <div className={`property is-read-only-${isReadOnly}`}>
+
+
+
       {children}
-      <input type="hidden" name={inputName} />
+
+      {
+        isReadOnly === false && isSelectBox === false && <input
+          type="hidden"
+          name={inputName} />
+      }
+
     </div>
   )
 }

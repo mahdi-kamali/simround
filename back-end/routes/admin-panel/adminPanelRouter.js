@@ -80,7 +80,6 @@ router.get("/sim-cards", async (req, res, next) => {
         const pageNumber =
             parseInt(req.query.pageNumber) ? parseInt(req.query.pageNumber) : 1;
 
-        console.log(pageNumber)
         const {
             priceMin = 0,
             priceMax = 99999999999,

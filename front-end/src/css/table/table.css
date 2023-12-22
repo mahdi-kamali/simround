@@ -45,6 +45,7 @@
   display: flex;
   align-items: center;
   line-height: 1.5;
+  position: relative;
 }
 .table .table-body .row .property .property-body {
   align-self: center;
@@ -60,15 +61,54 @@
 .table .table-body .row .property .property-header {
   display: none;
 }
+.table .table-body .row .property .select-box select {
+  font: inherit;
+  padding: 0.25em 1em;
+  text-align: center;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+}
+.table .table-body .row .property .select-box select:disabled {
+  border: unset !important;
+  opacity: 1 !important;
+}
+.table .table-body .row .property:first-child {
+  width: 20rem;
+  max-width: 6rem;
+  transition: all 1s ease;
+  z-index: 3;
+}
 .table .table-body .row .property:first-child .property-body {
   background-color: #0fac6d;
   padding: 0.5em 1em;
   border-radius: 100rem;
   color: white;
 }
+.table .table-body .row .property:first-child:hover {
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 20rem;
+}
 .table .table-body .row:last-child {
   border-bottom: none;
   padding-bottom: 0;
+}
+.table .table-body .editing-true .property-body {
+  -webkit-user-modify: read-write;
+  -moz-user-modify: read-write;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 0.25rem;
+  min-width: 100%;
+}
+.table .table-body .is-read-only-true {
+  -webkit-user-modify: read-only !important;
+  -moz-user-modify: read-only !important;
+  border: none !important;
+}
+.table .table-body .is-read-only-true * {
+  -webkit-user-modify: read-only !important;
+  -moz-user-modify: read-only !important;
+  border: none !important;
 }
 .table .table-category {
   display: grid;
@@ -122,14 +162,17 @@
   gap: 0.25rem;
   cursor: pointer;
 }
-.table .property .buttons button:nth-child(1) {
+.table .property .buttons .edit {
   background-color: orange;
 }
-.table .property .buttons button:nth-child(2) {
+.table .property .buttons .delete {
   background-color: red;
 }
-.table .property .buttons button:nth-child(3) {
+.table .property .buttons .status {
   background-color: skyblue;
+}
+.table .property .buttons .submit {
+  background-color: green;
 }
 .table .property .icon {
   font-size: 2.5rem;

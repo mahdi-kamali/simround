@@ -1,12 +1,20 @@
 import React from 'react'
 
-const TableBody = (props) => {
+const TableBody = ({ children, isEditing, setIsEditing }) => {
+
+
 
 
 
   return (
     <div className='table-body'  >
-      {props.children}
+      {children?.map((item, index) => {
+        return React.cloneElement(item, {
+          key: index,
+          isEditing: isEditing,
+          setIsEditing: setIsEditing
+        })
+      })}
     </div>
   )
 }

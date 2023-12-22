@@ -8,10 +8,6 @@ const Table = ({ children, columnsStyle }) => {
 
 
 
-
-
-
-
     return (
         <div className='table' style={style}   >
             {children}

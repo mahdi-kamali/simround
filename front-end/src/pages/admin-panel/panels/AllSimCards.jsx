@@ -17,9 +17,7 @@ import TableCategory from "../../../components/table/components/TableCategory"
 import TableHeader from "../../../components/table/components/TableHeader"
 import TablePaginations from "../../../components/table/components/TablePaginations"
 import { Icon } from '@iconify/react';
-
-
-
+import Select from 'react-select'
 
 
 import Switch from "react-switch";
@@ -28,50 +26,26 @@ import Switch from "react-switch";
 
 export default function AllSimCards() {
 
-
-
-  const [selectedPage, setSelectedPage] = useState(1)
-
   const [data, error, loading, refresh, setUrl] = useFetch(
     ADMIN_PANEL.SIM_CARDS.GET + `?pageNumber=${1}`, {})
 
+  const [isTableEditing, setIsTableEditing] = useState(false)
 
 
   const headersList = [
     "شناسه",
     "ارقام",
     "هزینه",
-    "استفاده شده",
+    "کارکرد سیمکارت",
     "نام اپراتور",
     "اقصادی",
     "پیش",
     "وضعیت",
-    " فروشنده",
+    "فروشنده",
     "تاریخ ایجاد",
     "اخرین تغییرات",
     "کنترل ها",
   ]
-
-
-
-
-
-
-
-  const orderListButtons = [
-    "All Orders",
-    "success",
-    "on progress",
-    "on error",
-    "on pause"
-  ]
-
-  const [ordersStatus, setOrdersStatus] = useState(orderListButtons[0])
-
-  const [sortedList, setSortedList] = useState([])
-
-  const [editState, setEditState] = useState(false)
-
 
 
 
@@ -99,10 +73,25 @@ export default function AllSimCards() {
   }
 
 
-  const handleEditSimCardClick = (simCard) => {
-    alert("ok")
+  const handleEditSimCardClick = () => {
+    setIsTableEditing(!isTableEditing)
   }
 
+
+
+
+  const simCardUsageOptions = [
+    { value: 'new', label: 'جدید' },
+    { value: 'used', label: 'مصرف شده' },
+    { value: 'semi used', label: 'نسبتا جدید' }
+  ]
+
+
+  const simCardsOperatorNae = [
+    { value: 'Irancell', label: 'ایرانسل' },
+    { value: 'Hamrah-e Aval', label: 'همراه اول' },
+    { value: 'Rightel', label: 'رایتل' }
+  ]
 
 
 
@@ -118,35 +107,41 @@ export default function AllSimCards() {
       <div className="body">
 
 
-        <Table columnsStyle={"10rem 10ch 7rem 7rem 7rem 4rem 5rem 4rem 5rem 6rem 8rem 7rem 1fr"}>
+        <Table
+
+          columnsStyle={"6rem 10ch 7rem 9rem 9rem 4rem 5rem 4rem 5rem 6rem 8rem 7rem 1fr"}>
+
+
           <TableHeader>
             {
               headersList.map((record, index) => {
                 return <ItemHeader key={index}>
                   {record}
+
                 </ItemHeader>
               })
             }
           </TableHeader>
-          <TableBody>
+
+
+          <TableBody
+            isEditing={isTableEditing}
+            setIsEditing={setIsTableEditing} >
             {
-              !loading ? data?.data.map((record) => {
+              data?.data.map((record) => {
 
-
-                return <Row key={record._id}>
-                  <Property>
+                return <Row key={record._id} >
+                  <Property isReadOnly={true} >
                     <div className="property-header">
                       {headersList[0]}
                     </div>
                     <div className="property-body">
                       {record._id}
                     </div>
-                    <div className="peoperty-edit-input">
-                      <input type="hidden" />
-                    </div>
+
                   </Property>
 
-                  <Property>
+                  <Property inputName="numbers" >
                     <div className="property-header">
                       {headersList[1]}
                     </div>
@@ -165,27 +160,46 @@ export default function AllSimCards() {
                   </Property>
 
 
-
-                  <Property>
+                  <Property isReadOnly={true}>
                     <div className="property-header">
                       {headersList[3]}
                     </div>
-                    <div className="property-body">
-                      {record.simCardUsageState}
+                    <div className="property-body select-box">
+                      <select
+                        disabled={!isTableEditing}
+                        name="simCardUsageState" >
+                        {simCardUsageOptions.map((item) => {
+                          return <option
+                            key={item.value}
+                            value="">
+                            {item.label}
+                          </option>
+                        })}
+                      </select>
 
                     </div>
                   </Property>
 
-                  <Property>
+                  <Property isReadOnly={true}>
                     <div className="property-header">
                       {headersList[4]}
                     </div>
-                    <div className="property-body">
-                      {record.operatorName}
+                    <div className="property-body select-box">
+                      <select
+                        disabled={!isTableEditing}
+                        name="simCardUsageState" >
+                        {simCardsOperatorNae.map((item) => {
+                          return <option
+                            key={item.value}
+                            value="">
+                            {item.label}
+                          </option>
+                        })}
+                      </select>
                     </div>
                   </Property>
 
-                  <Property>
+                  <Property isReadOnly={true}>
                     <div className="property-header">
                       {headersList[5]}
                     </div>
@@ -203,7 +217,7 @@ export default function AllSimCards() {
                     </div>
                   </Property>
 
-                  <Property>
+                  <Property isReadOnly={true}>
                     <div className="property-header">
                       {headersList[7]}
                     </div>
@@ -212,7 +226,7 @@ export default function AllSimCards() {
                     </div>
                   </Property>
 
-                  <Property>
+                  <Property isSelectBox={true} >
                     <div className="property-header">
                       {headersList[8]}
                     </div>
@@ -221,7 +235,7 @@ export default function AllSimCards() {
                     </div>
                   </Property>
 
-                  <Property>
+                  <Property isReadOnly={true}>
                     <div className="property-header">
                       {headersList[9]}
                     </div>
@@ -230,7 +244,7 @@ export default function AllSimCards() {
                     </div>
                   </Property>
 
-                  <Property>
+                  <Property isReadOnly={true}>
                     <div className="property-header">
                       {headersList[10]}
                     </div>
@@ -239,21 +253,37 @@ export default function AllSimCards() {
                     </div>
                   </Property>
 
-                  <Property>
+                  <Property isReadOnly={true}>
                     <div className="property-header">
                       {headersList[11]}
                     </div>
                     <div className="property-body">
                       <div className="buttons">
-                        <button>
-                          ویرایش
-                          <Icon icon="iconamoon:edit-bold" />
-                        </button>
-                        <button>
+
+                        {
+                          !isTableEditing ?
+                            <button
+                              className='edit'
+                              onClick={() => handleEditSimCardClick()}
+                              type='submit'>
+                              <span>ویرایش</span>
+                              <Icon icon="iconamoon:edit-bold" />
+                            </button> :
+                            <button
+                              className='submit'
+                              onClick={() => handleEditSimCardClick()}
+                              type='button'>
+                              <span>ثبت</span>
+                              <Icon icon="iconamoon:edit-bold" />
+                            </button>
+
+                        }
+
+                        <button className='delete'>
                           حذف
                           <Icon icon="iconamoon:edit-bold" />
                         </button>
-                        <button>
+                        <button className='status'>
                           فعال
                           {
                             record.isActivated ?
@@ -268,11 +298,10 @@ export default function AllSimCards() {
 
 
                 </Row>
-              }) : <h1>Loading...</h1>
+              })
             }
 
           </TableBody>
-
 
           <TablePaginations>
             <ResponsivePagination
@@ -283,7 +312,12 @@ export default function AllSimCards() {
               }}
             />
           </TablePaginations>
+
+
         </Table>
+
+
+
       </div>
 
     </section>
