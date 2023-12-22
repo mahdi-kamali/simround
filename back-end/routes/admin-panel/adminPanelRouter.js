@@ -83,7 +83,7 @@ router.get("/sim-cards", async (req, res, next) => {
         const {
             priceMin = 0,
             priceMax = 99999999999,
-            digits = `9*********`,
+            digits = `9********`,
             simCardUsageState = "all",
             ghesti = false,
             operatorName = "all"
@@ -94,12 +94,15 @@ router.get("/sim-cards", async (req, res, next) => {
             $lte: 9374905487
         };
 
+
         const minDigit = `${digits}`.replaceAll("*", "0");
         const maxDigit = `${digits}`.replaceAll("*", "9");
         numbersQuery = {
             $gte: parseInt(minDigit),
             $lte: parseInt(maxDigit)
         };
+        // return res.json(numbersQuery)
+
 
         const priceQuery = {
             $gte: priceMin,
@@ -114,16 +117,21 @@ router.get("/sim-cards", async (req, res, next) => {
             simCardUsageStateQuery = simCardUsageState;
         }
 
+
         let simCardOperatorQuery = {};
 
         if (operatorName !== "all") {
             simCardOperatorQuery = { operatorName };
         }
 
+
+
+     
+
         const simCards = await paginateQuery(
             SimCartModel,
             pageNumber,
-            30,
+            15,
             {
                 price: priceQuery,
                 numbers: numbersQuery,
@@ -133,12 +141,14 @@ router.get("/sim-cards", async (req, res, next) => {
             }
         );
 
+        return res.json(simCards)
+
+
         return res.json(simCards);
     } catch (err) {
         next(err);
     }
 });
-
 
 
 
