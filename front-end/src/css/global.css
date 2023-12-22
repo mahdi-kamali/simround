@@ -11,7 +11,7 @@
 
 body {
   height: 100dvh;
-  font-family: Vazir;
+  font-family: Vazir !important;
 }
 
 header {
@@ -123,25 +123,6 @@ main {
   font-size: 1.5rem;
 }
 
-.admin-panel-page table {
-  width: 80%;
-  margin: 0 auto;
-  border-collapse: collapse;
-}
-.admin-panel-page table thead {
-  background-color: rgb(68, 68, 68);
-  color: white;
-}
-.admin-panel-page table thead th {
-  padding: 1em;
-  font-weight: normal;
-}
-.admin-panel-page table thead th:first-child {
-  border-radius: 0 100rem 100rem 0;
-}
-.admin-panel-page table thead th:last-child {
-  border-radius: 100rem 0 0 100rem;
-}
 .admin-panel-page .all-simcards-section {
   display: flex;
   flex-direction: column;

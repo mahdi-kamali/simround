@@ -10,6 +10,10 @@ export default function AdminPanel() {
             component: <AllSimCards />
         }
     ]
+
+    
+
+
     const [selectedPanel, setSelectedPanel] = useState(panels[0])
 
     return (

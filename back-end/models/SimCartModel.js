@@ -36,7 +36,7 @@ const SimCardModel = new mongoose.Schema({
 
     isActivated: {
         type: Boolean,
-        default: false
+        default: true
     },
     operatorName: {
         type: String,

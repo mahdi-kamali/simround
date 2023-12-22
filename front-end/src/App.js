@@ -1,5 +1,9 @@
-import "./css/global.css"
 
+
+
+import "./css/global.css"
+import "./css/table/table.css"
+import 'react-responsive-pagination/themes/classic.css';
 
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';

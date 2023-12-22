@@ -14,7 +14,7 @@ $color-1: rgb(170, 170, 170);
 
 body {
     height: 100dvh;
-    font-family: Vazir;
+    font-family: Vazir !important;
 }
 
 header {
@@ -131,26 +131,8 @@ main {
 }
 
 .admin-panel-page {
-    table {
-        width: 80%;
-        margin: 0 auto;
-        border-collapse: collapse;
-        thead {
-            background-color: rgb(68, 68, 68);
-            color: white;
-            th {
-                padding: 1em;
-                font-weight: normal;
-                &:first-child {
-                    border-radius: 0 100rem 100rem 0;
-                }
 
-                &:last-child {
-                    border-radius: 100rem 0 0 100rem;
-                }
-            }
-        }
-    }
+   
     .all-simcards-section {
         display: flex;
         flex-direction: column;

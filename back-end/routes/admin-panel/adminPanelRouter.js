@@ -9,6 +9,8 @@ const SellOrderModel = require("../../models/SellOrderModel")
 const router = express.Router()
 
 
+
+// New
 router.post("/sim-cards/new", async (req, res, next) => {
     try {
         const data = req.body
@@ -30,19 +32,113 @@ router.post("/sim-cards/new", async (req, res, next) => {
 
 
 
-router.get("/sim-cards/:pageNumber", async (req, res, next) => {
-
-    const pageNumber = req.params.pageNumber
-
+// Update
+router.put("/sim-cards/update", async (req, res, next) => {
     try {
-        const simCarts = await paginateQuery(SimCartModel, pageNumber, 10)
-        return res.json(simCarts)
+        const { simCardID } = req.body
+        const data = req.body
+
+        const simCard = await SimCartModel.findByIdAndUpdate(simCardID,
+            data
+        )
+
+
+        if (!simCard) throw ("SimCard Not exist.")
+
+
+
+        return res.json("Updating Success!")
     }
-    catch (e) {
-        return next(e)
+    catch (err) {
+        return next(err)
     }
 })
 
+
+
+// Delete 
+router.delete("/sim-cards/delete", async (req, res, next) => {
+    try {
+        const { simCardID } = req.body
+
+        const simCard = await SimCartModel.findByIdAndDelete(simCardID)
+        if (!simCard) throw ("SimCard Not exist.")
+
+
+        return res.json("SimCard Deleted!.")
+    }
+    catch (err) {
+        return next(err)
+    }
+})
+
+
+
+// Get All
+router.get("/sim-cards", async (req, res, next) => {
+    try {
+        const pageNumber =
+            parseInt(req.query.pageNumber) ? parseInt(req.query.pageNumber) : 1;
+
+        console.log(pageNumber)
+        const {
+            priceMin = 0,
+            priceMax = 99999999999,
+            digits = `9*********`,
+            simCardUsageState = "all",
+            ghesti = false,
+            operatorName = "all"
+        } = req.query;
+
+        let numbersQuery = {
+            $gte: 9374905487,
+            $lte: 9374905487
+        };
+
+        const minDigit = `${digits}`.replaceAll("*", "0");
+        const maxDigit = `${digits}`.replaceAll("*", "9");
+        numbersQuery = {
+            $gte: parseInt(minDigit),
+            $lte: parseInt(maxDigit)
+        };
+
+        const priceQuery = {
+            $gte: priceMin,
+            $lte: priceMax
+        };
+
+        let simCardUsageStateQuery = {
+            $ne: "all"
+        };
+
+        if (simCardUsageState !== "all") {
+            simCardUsageStateQuery = simCardUsageState;
+        }
+
+        let simCardOperatorQuery = {};
+
+        if (operatorName !== "all") {
+            simCardOperatorQuery = { operatorName };
+        }
+
+        const simCards = await paginateQuery(
+            SimCartModel,
+            pageNumber,
+            30,
+            {
+                price: priceQuery,
+                numbers: numbersQuery,
+                simCardUsageState: simCardUsageStateQuery,
+                ghesti: ghesti ? ghesti : { $ne: undefined },
+                ...simCardOperatorQuery,
+            }
+        );
+
+        return res.json(simCards);
+    } catch (err) {
+        next(err);
+    }
+});
 
 
 
