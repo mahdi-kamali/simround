@@ -1,26 +1,16 @@
 import React, { useState } from 'react'
 
-const Property = ({ children, inputName, isReadOnly = false, isSelectBox = false }) => {
+const Property = ({ children }) => {
 
 
 
-  
+
 
 
 
   return (
-    <div className={`property is-read-only-${isReadOnly}`}>
-
-
-
+    <div className={`property`}>
       {children}
-
-      {
-        isReadOnly === false && isSelectBox === false && <input
-          type="hidden"
-          name={inputName} />
-      }
-
     </div>
   )
 }

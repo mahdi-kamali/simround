@@ -43,7 +43,7 @@ export async function post(URL, DATA) {
 
 export async function put(URL, DATA) {
     try {
-        const res = await axios.post(URL, DATA, {
+        const res = await axios.put(URL, DATA, {
             headers: {
                 token: sessionStorage.getItem("token")
             }

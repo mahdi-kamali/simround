@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TableBody = ({ children, isEditing, setIsEditing }) => {
+const TableBody = ({ children }) => {
 
 
 
@@ -8,13 +8,7 @@ const TableBody = ({ children, isEditing, setIsEditing }) => {
 
   return (
     <div className='table-body'  >
-      {children?.map((item, index) => {
-        return React.cloneElement(item, {
-          key: index,
-          isEditing: isEditing,
-          setIsEditing: setIsEditing
-        })
-      })}
+      {children}
     </div>
   )
 }

@@ -1,29 +1,20 @@
 import React, { useState } from 'react'
 
-import {logFormData} from "../../../libs/formDataLogger"
+import { logFormData } from "../../../libs/formDataLogger"
 
 
-const Row = ({ children, isEditing, setIsEditing }) => {
+const Row = ({ children, onUpdateSubmit }) => {
 
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        logFormData(e.target)
-    }
+
 
 
     return (
         <form
-            onSubmit={onSubmit}
-            className={`row editing-${isEditing}`}>
+            onSubmit={onUpdateSubmit}
+            className={`row`}>
             {
-                children?.map((item, index) => {
-                    return React.cloneElement(item, {
-                        key: index,
-                        isEditing: isEditing,
-                        setIsEditing: setIsEditing
-                    })
-                })
+                children
             }
         </form>
     )

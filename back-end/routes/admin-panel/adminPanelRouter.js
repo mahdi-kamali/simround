@@ -38,9 +38,13 @@ router.put("/sim-cards/update", async (req, res, next) => {
         const { simCardID } = req.body
         const data = req.body
 
-        const simCard = await SimCartModel.findByIdAndUpdate(simCardID,
-            data
+
+        const simCard = await SimCartModel.findByIdAndUpdate(simCardID, {
+            ...data,
+        }
+
         )
+
 
 
         if (!simCard) throw ("SimCard Not exist.")
@@ -126,7 +130,7 @@ router.get("/sim-cards", async (req, res, next) => {
 
 
 
-     
+
 
         const simCards = await paginateQuery(
             SimCartModel,
