@@ -84,7 +84,7 @@
   background-color: red;
 }
 .table .table-body .row .property .property-body .buttons .status-true {
-  background-color: green;
+  background-color: #0fac6d;
 }
 .table .table-body .row .property .property-body .buttons .status-false {
   background-color: #0d4bf4;

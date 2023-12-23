@@ -23,7 +23,7 @@ function App() {
         <Header />
 
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<Auth />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/admin/panel" element={<AdminPanel />} />
           <Route path="*" element={<h1>صفحه پیدا نشد.</h1>} />
