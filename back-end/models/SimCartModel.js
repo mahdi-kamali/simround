@@ -20,7 +20,21 @@ const SimCardModel = new mongoose.Schema({
 
     numbers: {
         type: Number,
-        required: [true, "Please Enter Numbers."]
+        required: [true, "Please Enter Numbers."],
+        validate: [
+            {
+                validator: function (value) {
+                    return /^[9]/.test(value.toString());
+                },
+                message: props => `${props.value} باید با 9 شروع شود`
+            },
+            {
+                validator: function (value) {
+                    return /^\d{8}$/.test(value.toString().substring(1));
+                },
+                message: props => `${props.value} شماره باید 9رقمی باشد`
+            }
+        ]
     },
     price: {
         type: Number,

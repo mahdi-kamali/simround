@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { logFormData } from "../../../libs/formDataLogger"
 
 
-const Row = ({ children, onUpdateSubmit }) => {
+const Row = ({ children, onSubmit }) => {
 
 
 
@@ -11,7 +11,7 @@ const Row = ({ children, onUpdateSubmit }) => {
 
     return (
         <form
-            onSubmit={onUpdateSubmit}
+            onSubmit={onSubmit}
             className={`row`}>
             {
                 children

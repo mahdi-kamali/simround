@@ -5,10 +5,8 @@ const paginateQuery = async (model, pageNumber = 1, itemsPerPage = 10,
     try {
 
 
-
-
         const skip = (pageNumber - 1) * itemsPerPage;
-        const query = model.find(sortQuery)
+        const query = model.find(sortQuery).sort({"createdAt": -1})
         const totalItems = await model.countDocuments(query);
 
 

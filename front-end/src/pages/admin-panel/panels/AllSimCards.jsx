@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ResponsivePagination from 'react-responsive-pagination';
 
 import { deleteF, post, put, useFetch } from '../../../libs/fetcher'
@@ -13,15 +13,12 @@ import ItemHeader from "../../../components/table/components/ItemHeader"
 import Property from "../../../components/table/components/Property"
 import Row from "../../../components/table/components/Row"
 import TableBody from "../../../components/table/components/TableBody"
-import TableCategory from "../../../components/table/components/TableCategory"
 import TableHeader from "../../../components/table/components/TableHeader"
 import TablePaginations from "../../../components/table/components/TablePaginations"
 import { Icon } from '@iconify/react';
 
 
 import Switch from "react-switch";
-import { logFormData } from '../../../libs/formDataLogger';
-
 
 
 export default function AllSimCards() {
@@ -29,6 +26,7 @@ export default function AllSimCards() {
   const [data, error, loading, refresh, setUrl] = useFetch(
     ADMIN_PANEL.SIM_CARDS.GET + `?pageNumber=${1}`, {})
 
+  const [isAddingSimCard, setIsAddingSimCard] = useState(false)
 
   const [isTableEditing, setIsTableEditing] = useState(false)
 
@@ -45,13 +43,17 @@ export default function AllSimCards() {
     "فروشنده",
     "تاریخ ایجاد",
     "کنترل ها",
+    "شمارنده"
   ]
 
 
 
 
-  const handleDeleteSimCardClick = (simCard) => {
-    Swal.fire({
+
+
+
+  const handleDeleteSimCardClick = async (simCard) => {
+    await Swal.fire({
       icon: "question",
       text: "آیا میخواهید فعالیت را ادامه دهید ؟",
       showDenyButton: true,
@@ -63,13 +65,15 @@ export default function AllSimCards() {
         deleteF(ADMIN_PANEL.SIM_CARDS.DELETE, {
           simCardID: simCard._id
         }).then(resp => {
-          showSuccess("عملیات موفق بود !", "سیمکارت مورد نظر حذف شد.")
-          refresh()
-        }).catch(err => {
-          showError("مشکلی وجود اومده.", "در حین انجام عملیات مشکلی بوجود امده است")
+          showSuccess("موفق!", "سیمکارت مورد نظر حذف شد")
         })
+          .catch(err => {
+            showError("خطا!", "مشکلی در حین انجام عملیات بوجود آمده است.")
+          })
       }
     })
+
+    refresh()
   }
 
 
@@ -91,6 +95,21 @@ export default function AllSimCards() {
       })
   }
 
+  const handleCreateSubmit = (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+
+    post(ADMIN_PANEL.SIM_CARDS.POST, formData)
+      .then(resp => {
+        console.log(resp)
+        refresh()
+      })
+      .catch(err => {
+        showError("خطا!", err)
+      })
+
+  }
+
 
 
   const simCardUsageOptions = [
@@ -110,11 +129,21 @@ export default function AllSimCards() {
 
 
 
+
+
   return (
     <section className='all-simcards-section'>
 
       <h1>
         تمامیه سیم کارت های موجود
+        <button onClick={() => {
+          setIsAddingSimCard(!isAddingSimCard)
+        }}>
+          <Icon icon="mdi:add-bold" />
+          <span>
+            اضافه کردن
+          </span>
+        </button>
       </h1>
 
       <div className="body">
@@ -122,7 +151,8 @@ export default function AllSimCards() {
 
         <Table
 
-          columnsStyle={"6rem 13ch 15ch 9rem 9rem 4rem 7rem 4rem 6rem 6rem 8rem  1fr"}>
+          columnsStyle={
+            "6rem 15ch 20ch 9rem 9rem 4rem 7rem 4rem 6rem 6rem 8rem  1fr "}>
 
 
           <TableHeader>
@@ -137,13 +167,177 @@ export default function AllSimCards() {
           </TableHeader>
 
 
+
           <TableBody>
+
+            {isAddingSimCard && <Row
+              onSubmit={handleCreateSubmit}
+              key={2500}>
+
+              <Property>
+                <div className="property-header">
+                  {headersList[0]}
+                </div>
+                <div className="property-body">
+                  خودکار
+                </div>
+              </Property>
+
+              <Property  >
+                <div className="property-header">
+                  {headersList[1]}
+                </div>
+                <div className="property-body price">
+                  <input
+                    minLength={5}
+                    maxLength={5}
+                    required
+                    type="number"
+                    name='numbers'
+                  />
+                </div>
+              </Property>
+
+              <Property>
+                <div className="property-header">
+                  {headersList[2]}
+                </div>
+                <div className="property-body price">
+                  <input
+                    required
+                    type="number"
+                    name='price'
+                  />
+                  <small>تومان</small>
+                </div>
+              </Property>
+
+
+              <Property >
+                <div className="property-header">
+                  {headersList[3]}
+                </div>
+                <div className="property-body select-box">
+                  <select
+                    name="simCardUsageState" >
+                    {simCardUsageOptions.map((item) => {
+                      return <option
+                        key={item.value}
+                        value={item.value}>
+                        {item.label}
+                      </option>
+                    })}
+                  </select>
+
+                </div>
+              </Property>
+
+              <Property >
+                <div className="property-header">
+                  {headersList[4]}
+                </div>
+                <div className="property-body select-box">
+                  <select
+                    name="operatorName" >
+                    {simCardsOperatorName.map((item) => {
+                      return <option
+                        key={item.value}
+                        value={item.value}>
+                        {item.label}
+                      </option>
+                    })}
+                  </select>
+                </div>
+              </Property>
+
+              <Property >
+                <div className="property-header">
+                  {headersList[5]}
+                </div>
+                <div className="property-body icon">
+                  <input type="checkbox" name='ghesti' />
+                </div>
+              </Property>
+
+              <Property>
+                <div className="property-header">
+                  {headersList[6]}
+                </div>
+                <div className="property-body price">
+                  <input
+                    required
+                    type="number"
+                    name='pish'
+                    defaultValue={0}
+                  />
+                </div>
+              </Property>
+
+              <Property >
+                <div className="property-header">
+                  {headersList[7]}
+                </div>
+                <div className="property-body icon">
+                  <input
+                    type="checkbox"
+                    name='vaziat' />
+                </div>
+              </Property>
+
+              <Property  >
+                <div className="property-header">
+                  {headersList[8]}
+                </div>
+                <div className="property-body">
+                  خودکار
+                </div>
+              </Property>
+
+              <Property >
+                <div className="property-header">
+                  {headersList[9]}
+                </div>
+                <div className="property-body">
+                  خودکار
+                </div>
+              </Property>
+
+              <Property >
+                <div className="property-header">
+                  {headersList[9]}
+                </div>
+                <div className="property-body">
+                  <div className="buttons">
+                    <button className='submit'>
+                      اضافه کردن
+                      <Icon icon="formkit:submit" />
+                    </button>
+                  </div>
+                </div>
+              </Property>
+
+              <Property >
+                <div className="property-header">
+                  {headersList[11]}
+                </div>
+                <div className="property-body">
+                  <h2>
+                    -
+                  </h2>
+                </div>
+              </Property>
+
+
+
+            </Row>}
+
             {
-              data?.data.map((record) => {
+              data?.data.map((record, index) => {
                 const isRowEditing = record?._id === isTableEditing?._id
                 return <Row
                   key={record._id}
-                  onUpdateSubmit={handleEditSubmit}  >
+                  onSubmit={handleEditSubmit}  >
+
                   <Property >
                     <div className="property-header">
                       {headersList[0]}
@@ -326,6 +520,7 @@ export default function AllSimCards() {
 
 
                         <button
+                          type='button'
                           onClick={() => handleDeleteSimCardClick(record)}
                           className='delete'>
                           حذف
@@ -334,6 +529,7 @@ export default function AllSimCards() {
 
 
                         <button
+                          type='button'
                           className={`status status-${record.isActivated}`}
                           onClick={() => {
                             put(ADMIN_PANEL.SIM_CARDS.PUT, {
@@ -361,6 +557,17 @@ export default function AllSimCards() {
                     </div>
                   </Property>
 
+
+                  <Property >
+                    <div className="property-header">
+                      {headersList[11]}
+                    </div>
+                    <div className="property-body">
+                      <h2>
+                        {index}
+                      </h2>
+                    </div>
+                  </Property>
 
                 </Row>
               })

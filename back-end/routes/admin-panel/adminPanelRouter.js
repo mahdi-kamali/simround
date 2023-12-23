@@ -14,6 +14,10 @@ const router = express.Router()
 router.post("/sim-cards/new", async (req, res, next) => {
     try {
         const data = req.body
+        const { ghesti, vaziat } = req.body
+
+        data.ghesti = ghesti === "on"
+        data.vaziat = vaziat === "on"
 
 
         const seller = await fetchUser(req.headers.token)

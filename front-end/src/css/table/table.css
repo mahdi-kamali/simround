@@ -109,7 +109,7 @@
   border: unset !important;
   opacity: 1 !important;
 }
-.table .table-body .row .property input {
+.table .table-body .row .property input[type=text], .table .table-body .row .property input[type=number] {
   all: unset;
   width: 100%;
   border-radius: 0.5rem;
@@ -117,11 +117,15 @@
   padding: 0.25em 1em;
   padding-left: 0;
 }
-.table .table-body .row .property input:-moz-read-only {
+.table .table-body .row .property input[type=text]:-moz-read-only, .table .table-body .row .property input[type=number]:-moz-read-only {
   border: none !important;
 }
-.table .table-body .row .property input:read-only {
+.table .table-body .row .property input[type=text]:read-only, .table .table-body .row .property input[type=number]:read-only {
   border: none !important;
+}
+.table .table-body .row .property input[type=checkbox] {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 .table .table-body .row .property select[readonly] {
   pointer-events: none;

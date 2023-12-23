@@ -20,6 +20,7 @@ export const ADMIN_PANEL = {
     SIM_CARDS: {
         GET: ADMIN_URL + "sim-cards/",
         DELETE: ADMIN_URL + "sim-cards/delete/",
-        PUT: ADMIN_URL + "sim-cards/update/"
+        PUT: ADMIN_URL + "sim-cards/update/" , 
+        POST : ADMIN_URL + "sim-cards/new/"
     }
 }
